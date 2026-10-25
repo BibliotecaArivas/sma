@@ -1,343 +1,874 @@
+
 <!DOCTYPE html>
 <html lang="es">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Tutorial APN | Galería</title>
+<meta name="theme-color" content="#0b1020">
+<meta name="description" content="Galería visual de pasos para configurar el APN en tu teléfono móvil.">
+<title>Tutorial APN | Guía visual</title>
+
 <style>
-  * {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    font-family: 'Segoe UI', Tahoma, sans-serif;
-  }
+:root {
+  --bg: #0b1020;
+  --surface: #111a2e;
+  --surface-light: #18243b;
+  --primary: #38bdf8;
+  --secondary: #818cf8;
+  --text: #f1f5f9;
+  --muted: #94a3b8;
+  --border: rgba(148, 163, 184, .17);
+  --radius: 22px;
+}
 
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  min-height: 100vh;
+  font-family: "Segoe UI", Roboto, Arial, sans-serif;
+  color: var(--text);
+  background:
+    radial-gradient(ellipse at 10% 0%, rgba(56,189,248,.12), transparent 38%),
+    radial-gradient(ellipse at 90% 20%, rgba(129,140,248,.12), transparent 35%),
+    var(--bg);
+  padding: 36px 20px 28px;
+}
+
+button {
+  font: inherit;
+}
+
+button:focus-visible {
+  outline: 3px solid var(--primary);
+  outline-offset: 4px;
+}
+
+.page {
+  width: 100%;
+  max-width: 1050px;
+  margin: auto;
+}
+
+/* ENCABEZADO */
+
+.header {
+  text-align: center;
+  margin: 0 auto 30px;
+}
+
+.logo {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 58px;
+  height: 58px;
+  margin-bottom: 16px;
+  border: 1px solid rgba(56,189,248,.35);
+  border-radius: 18px;
+  color: var(--primary);
+  background: rgba(56,189,248,.09);
+  font-size: 27px;
+  box-shadow: 0 8px 30px rgba(56,189,248,.08);
+}
+
+.eyebrow {
+  color: var(--primary);
+  font-size: .75rem;
+  font-weight: 800;
+  letter-spacing: 2.5px;
+  text-transform: uppercase;
+  margin-bottom: 10px;
+}
+
+.header h1 {
+  font-size: clamp(2rem, 5vw, 3.25rem);
+  line-height: 1.15;
+  font-weight: 800;
+  letter-spacing: -1.5px;
+  background: linear-gradient(100deg, #f8fafc 15%, #7dd3fc 55%, #a5b4fc);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.header p {
+  max-width: 520px;
+  margin: 14px auto 0;
+  color: var(--muted);
+  font-size: 1rem;
+  line-height: 1.7;
+}
+
+/* CONTENEDOR PRINCIPAL */
+
+.gallery {
+  width: 100%;
+  max-width: 530px;
+  margin: 0 auto;
+  padding: 15px;
+  border: 1px solid var(--border);
+  border-radius: 28px;
+  background: linear-gradient(
+    145deg,
+    rgba(24,36,59,.94),
+    rgba(13,20,37,.96)
+  );
+  box-shadow:
+    0 25px 70px rgba(0,0,0,.32),
+    inset 0 1px rgba(255,255,255,.04);
+}
+
+/* BARRA SUPERIOR */
+
+.gallery-toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 4px 4px 15px;
+}
+
+.toolbar-label {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  color: #dbeafe;
+  font-size: .85rem;
+  font-weight: 650;
+}
+
+.status-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #34d399;
+  box-shadow: 0 0 12px rgba(52,211,153,.45);
+}
+
+.counter {
+  flex-shrink: 0;
+  padding: 7px 12px;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  background: rgba(255,255,255,.04);
+  color: var(--muted);
+  font-size: .8rem;
+  font-variant-numeric: tabular-nums;
+}
+
+.counter strong {
+  color: var(--primary);
+}
+
+/* CARRUSEL */
+
+.carousel {
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+  isolation: isolate;
+  border: 1px solid rgba(255,255,255,.09);
+  border-radius: 19px;
+  background: #080d18;
+  box-shadow: 0 15px 35px rgba(0,0,0,.25);
+  touch-action: pan-y pinch-zoom;
+}
+
+.carousel-track {
+  display: flex;
+  width: 100%;
+  transition: transform .45s cubic-bezier(.22,.68,0,1);
+  will-change: transform;
+}
+
+.slide {
+  position: relative;
+  flex: 0 0 100%;
+  width: 100%;
+  aspect-ratio: 9 / 16;
+  max-height: min(72vh, 780px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  background:
+    radial-gradient(ellipse at center, #17243b, #080d18 75%);
+}
+
+.slide img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  user-select: none;
+  -webkit-user-drag: none;
+}
+
+.slide-caption {
+  position: absolute;
+  inset: auto 0 0;
+  padding: 38px 20px 23px;
+  background: linear-gradient(
+    to top,
+    rgba(5,10,22,.88),
+    rgba(5,10,22,.28) 60%,
+    transparent
+  );
+  pointer-events: none;
+}
+
+.slide-caption h2 {
+  font-size: clamp(1rem, 2.5vw, 1.25rem);
+  margin-bottom: 5px;
+}
+
+.slide-caption p {
+  color: #cbd5e1;
+  font-size: .85rem;
+  line-height: 1.5;
+}
+
+/* CONTROLES */
+
+.carousel-btn {
+  position: absolute;
+  top: 50%;
+  z-index: 3;
+  transform: translateY(-50%);
+  width: 46px;
+  height: 46px;
+  display: grid;
+  place-items: center;
+  border: 1px solid rgba(255,255,255,.22);
+  border-radius: 15px;
+  color: #fff;
+  background: rgba(8,15,30,.68);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  cursor: pointer;
+  font-size: 1.3rem;
+  transition: background .2s, border-color .2s, transform .2s;
+}
+
+.carousel-btn:hover {
+  background: rgba(14,165,233,.85);
+  border-color: #7dd3fc;
+}
+
+.carousel-btn:active {
+  transform: translateY(-50%) scale(.94);
+}
+
+.carousel-btn.prev {
+  left: 12px;
+}
+
+.carousel-btn.next {
+  right: 12px;
+}
+
+/* INDICADORES */
+
+.indicators {
+  position: absolute;
+  left: 50%;
+  bottom: 13px;
+  z-index: 4;
+  transform: translateX(-50%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  padding: 8px 11px;
+  border: 1px solid rgba(255,255,255,.1);
+  border-radius: 30px;
+  background: rgba(5,10,22,.65);
+  backdrop-filter: blur(10px);
+}
+
+.dot {
+  display: block;
+  width: 7px;
+  height: 7px;
+  flex-shrink: 0;
+  padding: 0;
+  border: none;
+  border-radius: 10px;
+  background: #64748b;
+  cursor: pointer;
+  transition: width .25s, background .25s;
+}
+
+.dot.active {
+  width: 23px;
+  background: var(--primary);
+}
+
+/* MINIATURAS */
+
+.thumbnails-section {
+  margin-top: 22px;
+}
+
+.section-heading {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  margin: 0 2px 12px;
+}
+
+.section-heading h3 {
+  font-size: .9rem;
+  font-weight: 700;
+}
+
+.section-heading span {
+  color: var(--muted);
+  font-size: .75rem;
+}
+
+.thumbnails {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.thumb {
+  position: relative;
+  min-width: 0;
+  aspect-ratio: 9 / 13;
+  overflow: hidden;
+  padding: 3px;
+  border: 1px solid var(--border);
+  border-radius: 13px;
+  background: #080d18;
+  cursor: pointer;
+  opacity: .62;
+  transition: opacity .2s, border-color .2s, transform .2s;
+}
+
+.thumb img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  border-radius: 9px;
+  pointer-events: none;
+}
+
+.thumb:hover {
+  opacity: .95;
+  transform: translateY(-2px);
+}
+
+.thumb.active {
+  opacity: 1;
+  border: 2px solid var(--primary);
+  padding: 2px;
+  box-shadow: 0 0 0 3px rgba(56,189,248,.1);
+}
+
+.thumb-number {
+  position: absolute;
+  bottom: 7px;
+  left: 7px;
+  min-width: 23px;
+  height: 23px;
+  padding: 0 5px;
+  display: grid;
+  place-items: center;
+  border-radius: 7px;
+  background: rgba(5,10,22,.85);
+  color: #fff;
+  font-size: .7rem;
+  font-weight: 700;
+}
+
+.thumb.active .thumb-number {
+  color: #06111f;
+  background: var(--primary);
+}
+
+/* AYUDA INFERIOR */
+
+.help {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  margin-top: 23px;
+  padding: 15px;
+  border: 1px solid rgba(56,189,248,.13);
+  border-radius: 15px;
+  background: rgba(56,189,248,.045);
+}
+
+.help-icon {
+  flex-shrink: 0;
+  width: 32px;
+  height: 32px;
+  display: grid;
+  place-items: center;
+  border-radius: 10px;
+  background: rgba(56,189,248,.1);
+  color: var(--primary);
+}
+
+.help p {
+  color: var(--muted);
+  font-size: .8rem;
+  line-height: 1.65;
+}
+
+.help strong {
+  color: #e2e8f0;
+}
+
+.footer {
+  padding: 27px 0 0;
+  text-align: center;
+  color: #64748b;
+  font-size: .78rem;
+  line-height: 1.7;
+}
+
+/* PANTALLAS MEDIANAS */
+
+@media (min-width: 768px) {
   body {
-    background: #0f0f1a;
-    color: #fff;
-    min-height: 100vh;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    padding: 40px 20px;
+    padding-top: 48px;
   }
 
-  header {
-    text-align: center;
-    margin-bottom: 30px;
+  .gallery {
+    padding: 19px;
   }
 
-  header h1 {
-    font-size: clamp(1.8rem, 4vw, 2.8rem);
-    background: linear-gradient(90deg, #00d4ff, #a855f7);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-    margin-bottom: 10px;
-  }
-
-  header p {
-    color: #9ca3af;
-    font-size: clamp(0.9rem, 2vw, 1.1rem);
-  }
-
-  /* CARRUSEL */
-  .carousel {
-    position: relative;
-    width: 100%;
-    /* Ancho máximo ajustado para formato móvil vertical */
-    max-width: 420px; 
-    border-radius: 20px;
-    overflow: hidden;
-    box-shadow: 0 25px 60px rgba(0, 212, 255, 0.15);
-    background: #111; /* Fondo oscuro para que resalten tus capturas */
-  }
-
-  .carousel-track {
-    display: flex;
-    transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
-    will-change: transform;
-  }
-
-  .slide {
-    min-width: 100%;
-    position: relative;
-    /* Formato vertical (9:16) para capturas de pantalla de celular */
-    aspect-ratio: 9 / 16; 
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background: #1a1a2e;
-  }
-
-  .slide img {
-    width: 100%;
-    height: 100%;
-    /* 'contain' asegura que la imagen no se recorte y respete su tamaño original */
-    object-fit: contain; 
-    display: block;
-    /* Eliminado cualquier efecto de zoom o transición de escala */
-  }
-
-  .slide-caption {
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    padding: 30px 25px 25px;
-    background: linear-gradient(to top, rgba(0,0,0,0.9), transparent);
-    pointer-events: none; /* Permite hacer clic a través del texto si es necesario */
-  }
-
-  .slide-caption h2 {
-    font-size: clamp(1.1rem, 2.5vw, 1.4rem);
-    margin-bottom: 6px;
-    color: #fff;
-  }
-
-  .slide-caption p {
-    color: #d1d5db;
-    font-size: clamp(0.8rem, 1.8vw, 0.95rem);
-  }
-
-  /* BOTONES */
-  .carousel-btn {
-    position: absolute;
-    top: 50%;
-    transform: translateY(-50%);
-    width: 48px;
-    height: 48px;
-    border-radius: 50%;
-    border: none;
-    background: rgba(0,0,0,0.5);
-    backdrop-filter: blur(5px);
-    color: #fff;
-    font-size: 1.3rem;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transition: background 0.3s ease;
-    z-index: 10;
-  }
-
-  .carousel-btn:hover {
-    background: rgba(0, 212, 255, 0.8);
-  }
-
-  .carousel-btn.prev { left: 10px; }
-  .carousel-btn.next { right: 10px; }
-
-  /* INDICADORES */
-  .indicators {
-    position: absolute;
-    bottom: 15px;
-    left: 50%;
-    transform: translateX(-50%);
-    display: flex;
-    gap: 8px;
-    z-index: 10;
-  }
-
-  .dot {
-    width: 10px;
-    height: 10px;
-    border-radius: 50%;
-    background: rgba(255,255,255,0.4);
-    border: none;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    padding: 0;
-  }
-
-  .dot.active {
-    background: #00d4ff;
-    width: 28px;
-    border-radius: 5px;
-  }
-
-  /* MINIATURAS */
   .thumbnails {
-    display: flex;
-    gap: 12px;
-    margin-top: 25px;
-    max-width: 420px; /* Se alinea con el ancho del carrusel */
-    width: 100%;
-    overflow-x: auto;
-    padding: 5px;
-    scrollbar-width: thin;
-    scrollbar-color: #00d4ff #1a1a2e;
-  }
-
-  .thumbnails::-webkit-scrollbar { height: 6px; }
-  .thumbnails::-webkit-scrollbar-thumb {
-    background: #00d4ff;
-    border-radius: 3px;
+    gap: 15px;
   }
 
   .thumb {
-    min-width: 70px;
-    width: 70px;
-    aspect-ratio: 9 / 16; /* Formato vertical para las miniaturas también */
-    border-radius: 8px;
-    overflow: hidden;
-    cursor: pointer;
-    opacity: 0.5;
-    border: 2px solid transparent;
-    transition: all 0.3s ease;
-    flex-shrink: 0;
-    background: #111;
+    aspect-ratio: 9 / 12;
+  }
+}
+
+/* CELULARES */
+
+@media (max-width: 480px) {
+  body {
+    padding: 24px 12px 20px;
   }
 
-  .thumb:hover { opacity: 0.85; }
-
-  .thumb.active {
-    opacity: 1;
-    border-color: #00d4ff;
-    transform: translateY(-3px);
+  .header {
+    margin-bottom: 22px;
   }
 
-  .thumb img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
+  .logo {
+    width: 48px;
+    height: 48px;
+    margin-bottom: 12px;
+    border-radius: 15px;
+    font-size: 23px;
   }
 
-  /* RESPONSIVE */
-  @media (max-width: 768px) {
-    body { padding: 25px 12px; }
-    .carousel-btn { width: 38px; height: 38px; font-size: 1rem; }
-    .slide-caption { padding: 20px 15px 15px; }
+  .header h1 {
+    letter-spacing: -.8px;
   }
+
+  .header p {
+    margin-top: 10px;
+    font-size: .88rem;
+  }
+
+  .gallery {
+    padding: 10px;
+    border-radius: 21px;
+  }
+
+  .gallery-toolbar {
+    padding: 3px 2px 12px;
+  }
+
+  .toolbar-label {
+    font-size: .78rem;
+  }
+
+  .counter {
+    padding: 6px 9px;
+    font-size: .74rem;
+  }
+
+  .carousel {
+    border-radius: 15px;
+  }
+
+  .slide {
+    max-height: 68vh;
+  }
+
+  .carousel-btn {
+    width: 38px;
+    height: 38px;
+    border-radius: 12px;
+    font-size: 1rem;
+  }
+
+  .carousel-btn.prev {
+    left: 8px;
+  }
+
+  .carousel-btn.next {
+    right: 8px;
+  }
+
+  .slide-caption {
+    padding: 30px 13px 23px;
+  }
+
+  .slide-caption p {
+    font-size: .77rem;
+  }
+
+  .indicators {
+    bottom: 10px;
+    gap: 6px;
+  }
+
+  .thumbnails-section {
+    margin-top: 18px;
+  }
+
+  .thumbnails {
+    gap: 8px;
+  }
+
+  .thumb {
+    border-radius: 10px;
+  }
+
+  .thumb-number {
+    bottom: 5px;
+    left: 5px;
+    min-width: 20px;
+    height: 20px;
+    font-size: .65rem;
+  }
+
+  .help {
+    margin-top: 18px;
+    padding: 12px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    scroll-behavior: auto !important;
+    transition-duration: .01ms !important;
+    animation-duration: .01ms !important;
+  }
+}
 </style>
 </head>
+
 <body>
+<main class="page">
 
-<header>
-</header>
+  <header class="header">
+    <div class="logo" aria-hidden="true">⌁</div>
+    <div class="eyebrow">Guía paso a paso</div>
+    <h1>Tutorial de configuración APN</h1>
+    <p>
+      Sigue las imágenes para revisar la configuración de tu teléfono
+      de manera sencilla y ordenada.
+    </p>
+  </header>
 
-<div class="carousel" id="carousel">
-  <div class="carousel-track" id="track">
-    
-    <!-- REEMPLAZA LOS SRC CON LAS RUTAS DE TUS IMÁGENES -->
-    
-    <div class="slide active">
-      <!-- Cambia esto por: src="img/pantalla1.jpg" -->
-      <img src="1.jpg" alt="Menú APN" onerror="this.src='https://picsum.photos/400/711?random=1'">
-      <div class="slide-caption">
+  <section class="gallery" aria-label="Galería del tutorial">
+
+    <div class="gallery-toolbar">
+      <div class="toolbar-label">
+        <span class="status-dot"></span>
+        Guía visual
+      </div>
+
+      <div class="counter" aria-live="polite" aria-atomic="true">
+        Paso <strong id="currentNumber">01</strong>
+        <span> / </span>
+        <span id="totalNumber">04</span>
       </div>
     </div>
 
-    <div class="slide">
-      <!-- Cambia esto por: src="img/pantalla2.jpg" -->
-      <img src="2.jpg" alt="Editar APN" onerror="this.src='https://picsum.photos/400/711?random=2'">
-      <div class="slide-caption">
+    <div class="carousel" id="carousel">
+      <div class="carousel-track" id="track">
+
+        <article class="slide">
+          <img src="1.jpg" alt="Primera pantalla del tutorial APN"
+               draggable="false">
+          <div class="slide-caption">
+            <h2>Paso 1</h2>
+            <p>Revisa la primera pantalla de configuración.</p>
+          </div>
+        </article>
+
+        <article class="slide">
+          <img src="2.jpg" alt="Segunda pantalla del tutorial APN"
+               draggable="false">
+          <div class="slide-caption">
+            <h2>Paso 2</h2>
+            <p>Continúa con las opciones de configuración.</p>
+          </div>
+        </article>
+
+        <article class="slide">
+          <img src="3.jpg" alt="Tercera pantalla del tutorial APN"
+               draggable="false">
+          <div class="slide-caption">
+            <h2>Paso 3</h2>
+            <p>Comprueba los ajustes indicados en la imagen.</p>
+          </div>
+        </article>
+
+        <article class="slide">
+          <img src="4.jpg" alt="Cuarta pantalla del tutorial APN"
+               draggable="false">
+          <div class="slide-caption">
+            <h2>Paso 4</h2>
+            <p>Revisa el último paso de la guía visual.</p>
+          </div>
+        </article>
+
       </div>
+
+      <button class="carousel-btn prev" id="prev"
+              type="button" aria-label="Ver imagen anterior"
+              title="Anterior">
+        &#10094;
+      </button>
+
+      <button class="carousel-btn next" id="next"
+              type="button" aria-label="Ver imagen siguiente"
+              title="Siguiente">
+        &#10095;
+      </button>
+
+      <div class="indicators" id="indicators"
+           aria-label="Seleccionar imagen"></div>
     </div>
 
-    <div class="slide">
-      <!-- Cambia esto por: src="img/pantalla3.jpg" -->
-      <img src="3.jpg" alt="Configuración avanzada" onerror="this.src='https://picsum.photos/400/711?random=3'">
-      <div class="slide-caption">
+    <div class="thumbnails-section">
+      <div class="section-heading">
+        <h3>Imágenes del tutorial</h3>
+        <span>Selecciona un paso</span>
       </div>
+
+      <div class="thumbnails" id="thumbnails"
+           aria-label="Miniaturas de las imágenes"></div>
     </div>
 
-    <div class="slide">
-      <!-- Cambia esto por: src="img/pantalla4.jpg" -->
-      <img src="4.jpg" alt="Finalizar" onerror="this.src='https://picsum.photos/400/711?random=4'">
-      <div class="slide-caption">
-      </div>
-    </div>
+    <aside class="help">
+      <div class="help-icon" aria-hidden="true">i</div>
+      <p>
+        <strong>Consejo:</strong> utiliza las flechas para avanzar,
+        selecciona una miniatura para ir directamente a un paso
+        o desliza la imagen hacia los lados desde tu celular.
+      </p>
+    </aside>
 
-  </div>
+  </section>
 
-  <button class="carousel-btn prev" id="prev" aria-label="Anterior">❮</button>
-  <button class="carousel-btn next" id="next" aria-label="Siguiente">❯</button>
+  <footer class="footer">
+    Tutorial APN · Guía visual de configuración móvil
+  </footer>
 
-  <div class="indicators" id="indicators"></div>
-</div>
-
-<div class="thumbnails" id="thumbnails"></div>
+</main>
 
 <script>
-  const track = document.getElementById('track');
-  const slides = Array.from(track.children);
-  const prevBtn = document.getElementById('prev');
-  const nextBtn = document.getElementById('next');
-  const indicatorsContainer = document.getElementById('indicators');
-  const thumbsContainer = document.getElementById('thumbnails');
+(() => {
+  "use strict";
+
+  const track = document.getElementById("track");
+  const carousel = document.getElementById("carousel");
+  const prevBtn = document.getElementById("prev");
+  const nextBtn = document.getElementById("next");
+  const indicators = document.getElementById("indicators");
+  const thumbnails = document.getElementById("thumbnails");
+  const currentNumber = document.getElementById("currentNumber");
+  const totalNumber = document.getElementById("totalNumber");
+
+  const slides = Array.from(track.querySelectorAll(".slide"));
+  const total = slides.length;
 
   let currentIndex = 0;
+  let touchStartX = 0;
+  let touchStartY = 0;
 
-  // Crear indicadores y miniaturas dinámicamente
-  slides.forEach((slide, i) => {
-    // Punto indicador
-    const dot = document.createElement('button');
-    dot.classList.add('dot');
-    if (i === 0) dot.classList.add('active');
-    dot.addEventListener('click', () => goToSlide(i));
-    indicatorsContainer.appendChild(dot);
+  if (!total) return;
 
-    // Miniatura
-    const thumb = document.createElement('div');
-    thumb.classList.add('thumb');
-    if (i === 0) thumb.classList.add('active');
-    const img = slide.querySelector('img').cloneNode();
-    thumb.appendChild(img);
-    thumb.addEventListener('click', () => goToSlide(i));
-    thumbsContainer.appendChild(thumb);
+  totalNumber.textContent = String(total).padStart(2, "0");
+
+  // Crear indicadores y miniaturas a partir de las imágenes.
+  slides.forEach((slide, index) => {
+    const source = slide.querySelector("img");
+
+    const dot = document.createElement("button");
+    dot.type = "button";
+    dot.className = "dot";
+    dot.setAttribute("aria-label", `Ver paso ${index + 1}`);
+    dot.addEventListener("click", () => goToSlide(index));
+    indicators.appendChild(dot);
+
+    const thumb = document.createElement("button");
+    thumb.type = "button";
+    thumb.className = "thumb";
+    thumb.setAttribute("aria-label", `Seleccionar paso ${index + 1}`);
+    thumb.setAttribute("aria-pressed", "false");
+
+    const image = document.createElement("img");
+    image.src = source.getAttribute("src");
+    image.alt = "";
+    image.loading = "lazy";
+    image.draggable = false;
+
+    const number = document.createElement("span");
+    number.className = "thumb-number";
+    number.textContent = String(index + 1).padStart(2, "0");
+
+    thumb.append(image, number);
+    thumb.addEventListener("click", () => goToSlide(index));
+    thumbnails.appendChild(thumb);
   });
 
-  const dots = Array.from(indicatorsContainer.children);
-  const thumbs = Array.from(thumbsContainer.children);
+  const dots = Array.from(indicators.children);
+  const thumbs = Array.from(thumbnails.children);
 
   function goToSlide(index) {
-    if (index < 0) index = slides.length - 1;
-    if (index >= slides.length) index = 0;
-    currentIndex = index;
+    currentIndex = (index + total) % total;
 
-    track.style.transform = `translateX(-${currentIndex * 100}%)`;
+    track.style.transform =
+      `translate3d(-${currentIndex * 100}%, 0, 0)`;
 
-    slides.forEach((s, i) => s.classList.toggle('active', i === currentIndex));
-    dots.forEach((d, i) => d.classList.toggle('active', i === currentIndex));
-    thumbs.forEach((t, i) => t.classList.toggle('active', i === currentIndex));
+    slides.forEach((slide, i) => {
+      slide.setAttribute(
+        "aria-hidden",
+        i === currentIndex ? "false" : "true"
+      );
+    });
 
-    // Scroll hacia la miniatura activa
-    thumbs[currentIndex].scrollIntoView({ behavior: 'smooth', inline: 'center', block: 'nearest' });
+    dots.forEach((dot, i) => {
+      dot.classList.toggle("active", i === currentIndex);
+      dot.setAttribute(
+        "aria-current",
+        i === currentIndex ? "step" : "false"
+      );
+    });
+
+    thumbs.forEach((thumb, i) => {
+      const active = i === currentIndex;
+      thumb.classList.toggle("active", active);
+      thumb.setAttribute("aria-pressed", String(active));
+    });
+
+    currentNumber.textContent =
+      String(currentIndex + 1).padStart(2, "0");
+
+    thumbs[currentIndex].scrollIntoView({
+      behavior: window.matchMedia(
+        "(prefers-reduced-motion: reduce)"
+      ).matches ? "auto" : "smooth",
+      block: "nearest",
+      inline: "nearest"
+    });
   }
 
-  // Navegación solo con clic (Sin autoplay)
-  prevBtn.addEventListener('click', () => goToSlide(currentIndex - 1));
-  nextBtn.addEventListener('click', () => goToSlide(currentIndex + 1));
-
-  // Navegación con teclado
-  document.addEventListener('keydown', (e) => {
-    if (e.key === 'ArrowLeft') goToSlide(currentIndex - 1);
-    if (e.key === 'ArrowRight') goToSlide(currentIndex + 1);
+  prevBtn.addEventListener("click", () => {
+    goToSlide(currentIndex - 1);
   });
 
-  // Swipe táctil
-  let touchStartX = 0;
-  let touchEndX = 0;
-  const carousel = document.getElementById('carousel');
+  nextBtn.addEventListener("click", () => {
+    goToSlide(currentIndex + 1);
+  });
 
-  carousel.addEventListener('touchstart', (e) => {
-    touchStartX = e.changedTouches[0].screenX;
-  }, { passive: true });
-
-  carousel.addEventListener('touchend', (e) => {
-    touchEndX = e.changedTouches[0].screenX;
-    handleSwipe();
-  }, { passive: true });
-
-  function handleSwipe() {
-    const diff = touchStartX - touchEndX;
-    if (Math.abs(diff) > 50) {
-      if (diff > 0) goToSlide(currentIndex + 1);
-      else goToSlide(currentIndex - 1);
+  // Navegación por teclado cuando la galería está enfocada.
+  carousel.addEventListener("keydown", event => {
+    if (event.key === "ArrowLeft") {
+      event.preventDefault();
+      goToSlide(currentIndex - 1);
     }
-  }
-</script>
 
+    if (event.key === "ArrowRight") {
+      event.preventDefault();
+      goToSlide(currentIndex + 1);
+    }
+
+    if (event.key === "Home") {
+      event.preventDefault();
+      goToSlide(0);
+    }
+
+    if (event.key === "End") {
+      event.preventDefault();
+      goToSlide(total - 1);
+    }
+  });
+
+  // Deslizamiento táctil: evita confundir el desplazamiento vertical.
+  carousel.addEventListener("touchstart", event => {
+    const touch = event.changedTouches[0];
+    touchStartX = touch.clientX;
+    touchStartY = touch.clientY;
+  }, { passive: true });
+
+  carousel.addEventListener("touchend", event => {
+    const touch = event.changedTouches[0];
+    const deltaX = touch.clientX - touchStartX;
+    const deltaY = touch.clientY - touchStartY;
+
+    if (
+      Math.abs(deltaX) > 45 &&
+      Math.abs(deltaX) > Math.abs(deltaY) * 1.2
+    ) {
+      goToSlide(
+        deltaX < 0 ? currentIndex + 1 : currentIndex - 1
+      );
+    }
+  }, { passive: true });
+
+  // Mensaje visual si alguna captura no existe.
+  slides.forEach(slide => {
+    const img = slide.querySelector("img");
+
+    img.addEventListener("error", () => {
+      img.alt = "Imagen no encontrada: " + img.getAttribute("src");
+      img.style.visibility = "hidden";
+
+      if (!slide.querySelector(".image-error")) {
+        const message = document.createElement("p");
+        message.className = "image-error";
+        message.textContent =
+          "No se pudo cargar la imagen. Verifica el archivo " +
+          img.getAttribute("src") + ".";
+        message.style.cssText =
+          "position:absolute;left:15px;right:15px;top:50%;" +
+          "transform:translateY(-50%);text-align:center;" +
+          "color:#94a3b8;font-size:.9rem;line-height:1.6;";
+        slide.appendChild(message);
+      }
+    }, { once: true });
+  });
+
+  // Iniciar la galería.
+  goToSlide(0);
+})();
+</script>
 </body>
 </html>
